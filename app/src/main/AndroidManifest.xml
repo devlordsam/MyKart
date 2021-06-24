@@ -12,9 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyKart">
-        <activity android:name=".LoginActivity"
+        <activity android:name=".BaseActivity"></activity>
+        <activity
+            android:name=".RegisterActivity"
             android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.MyKart.NoActionBar"/>
+            android:theme="@style/Theme.MyKart.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Theme.MyKart.NoActionBar" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="fullSensor"
@@ -25,8 +31,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="fullSensor"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="fullSensor" />
     </application>
 
 </manifest>

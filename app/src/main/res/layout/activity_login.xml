@@ -143,7 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:padding="@dimen/clickable_tv_padding"
+            android:padding="8dp"
             android:text="@string/dont_t_have_account"
             android:textColor="@color/secondaryTextColor"
             android:textSize="@dimen/lbl_tv_ts" />
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:foreground="?attr/selectableItemBackground"
-            android:padding="@dimen/clickable_tv_padding"
+            android:padding="8dp"
             android:text="@string/register"
             android:textColor="@color/secondaryTextColor"
             android:textSize="@dimen/lbl_tv_ts" />
