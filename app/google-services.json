@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "322081485846",
+    "project_id": "mykart-3a5db",
+    "storage_bucket": "mykart-3a5db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322081485846:android:6070f34194100954b0f137",
+        "android_client_info": {
+          "package_name": "com.lordsam.mykart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "322081485846-fsa1msdgek0s8h18lnjsutdu2pefcosp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQqaUEtz1rTB6GIEjhigMzKlxaLAwmCNo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "322081485846-fsa1msdgek0s8h18lnjsutdu2pefcosp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

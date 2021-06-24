@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+
+    <FrameLayout
+        android:id="@+id/frameLayoutLoginHeaderImage"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/auth_header_image_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/content_description"
+            android:scaleType="fitXY"
+            android:src="@drawable/auth_screens_background"/>
+
+        <ImageView
+            android:layout_width="@dimen/auth_logo_width"
+            android:layout_height="@dimen/auth_logo_height"
+            android:layout_gravity="center"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:src="@drawable/tutorials_eu_logo"
+            app:tint="@color/white" />
+    </FrameLayout>
+
+    <com.lordsam.mykart.utility.MSBTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewLoginTitle"
+        android:layout_marginTop="32dp"
+        android:text="@string/title_login"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/title_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frameLayoutLoginHeaderImage"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tilEmail"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/et_hint_email"
+        android:textColorHint="@color/secondaryTextColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewLoginTitle">
+
+        <com.lordsam.mykart.utility.MKEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etEmail"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/et_padding"
+            android:textColorHint="@color/primaryTextColor"
+            android:textSize="@dimen/et_text_size"
+            tools:text="abs@gmail.com"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/til_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/et_hint_password"
+        android:textColorHint="@color/secondaryTextColor"
+        android:outlineProvider="bounds"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilEmail">
+
+        <com.lordsam.mykart.utility.MKEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:padding="@dimen/et_padding"
+            android:textColorHint="@color/primaryTextColor"
+            android:textSize="@dimen/et_text_size"
+            tools:text="123456" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.lordsam.mykart.utility.MSTextView
+        android:id="@+id/tv_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="@dimen/clickable_tv_padding"
+        android:text="@string/lbl_forgot_pwd"
+        android:textColor="@color/secondaryTextColor"
+        android:textSize="@dimen/forgot_password_ts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_password" />
+
+    <com.lordsam.mykart.utility.MKButton
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/background_button"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:paddingTop="@dimen/btn_padding"
+        android:paddingBottom="@dimen/btn_padding"
+        android:text="@string/btn_lbl_login"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/btn_ts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_forgot_password" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_login">
+
+        <com.lordsam.mykart.utility.MSTextView
+            android:id="@+id/tv_don_t_have_an_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="@dimen/clickable_tv_padding"
+            android:text="@string/dont_t_have_account"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="@dimen/lbl_tv_ts" />
+
+        <com.lordsam.mykart.utility.MSBTextView
+            android:id="@+id/tv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="@dimen/clickable_tv_padding"
+            android:text="@string/register"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="@dimen/lbl_tv_ts" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
