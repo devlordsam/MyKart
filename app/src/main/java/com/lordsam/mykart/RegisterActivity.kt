@@ -54,7 +54,7 @@ class RegisterActivity : BaseActivity() {
         cb_terms_and_condition = findViewById(R.id.cb_terms_and_condition)
 
         txtLogin.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            onBackPressed()
         }
 
         btn_register.setOnClickListener {
