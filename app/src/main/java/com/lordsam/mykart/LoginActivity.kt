@@ -12,10 +12,7 @@ import android.view.WindowManager
 import com.google.firebase.auth.FirebaseAuth
 import com.lordsam.mykart.firestore.FireStoreClass
 import com.lordsam.mykart.modals.User
-import com.lordsam.mykart.utility.MKButton
-import com.lordsam.mykart.utility.MKEditText
-import com.lordsam.mykart.utility.MSBTextView
-import com.lordsam.mykart.utility.MSTextView
+import com.lordsam.mykart.utility.*
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
@@ -128,6 +125,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if (user.profileCompleted == 0) {
             // If the user profile is incomplete then launch the UserProfileActivity.
             val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
+            intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
             startActivity(intent)
         } else {
             // Redirect the user to Main Screen after log in.

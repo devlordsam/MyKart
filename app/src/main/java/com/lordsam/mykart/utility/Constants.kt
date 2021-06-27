@@ -5,4 +5,5 @@ object Constants {
     const val USERS :String = "users"
     const val MY_KART_PREF :String = "MyKartPref"
     const val LOGGED_USER :String = "LoggedUser"
+    const val EXTRA_USER_DETAILS :String = "ExtraUserDetails"
 }
