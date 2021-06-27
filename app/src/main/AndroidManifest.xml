@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyKart">
-        <activity android:name=".ForgotPasswordActivity"
+        <activity android:name=".UserProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ForgotPasswordActivity"
             android:screenOrientation="fullSensor"
             android:theme="@style/Theme.MyKart.NoActionBar" />
         <activity android:name=".BaseActivity" />
