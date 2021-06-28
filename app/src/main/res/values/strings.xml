@@ -44,4 +44,10 @@
     <string name="rb_lbl_male">MALE</string>
     <string name="rb_lbl_female">FEMALE</string>
     <string name="btn_lbl_save">Save</string>
+
+    <string name="read_storage_permission_denied">Permission Denied</string>
+    <string name="image_selection_failed">Image Selection failed!</string>
+
+    <string name="err_msg_enter_mobile_number">Please, enter mobile number.</string>
+    <string name="msg_profile_update_success">Update Success</string>
 </resources>
