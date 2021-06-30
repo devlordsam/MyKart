@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -30,6 +31,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
     private lateinit var iv_user_photo :ImageView
     private lateinit var btn_save :MKButton
     private lateinit var mUserDetails: User
+    private var mSelectedImageFileUri : Uri? = null
+    private var mUserProfileImageURL: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +78,12 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
                     if(validateUserProfileDetails()){
 
-                        createUserHashmap()
+                        showProgressDialog(resources.getString(R.string.please_wait))
+
+                        if(mSelectedImageFileUri != null)
+                            FireStoreClass().uploadImageToCloudStorage(this,  mSelectedImageFileUri)
+                        else
+                            updateUserProfileDetails()
                         //showErrorSnackBar("Your details are valid. You can update them.",false)
                     }
                 }
@@ -138,10 +146,10 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                 if (data != null) {
                     try {
                         // The uri of selected image from phone storage.
-                        val selectedImageFileUri = data.data!!
+                        mSelectedImageFileUri = data.data!!
 
                         GlideLoader(this@UserProfileActivity).loadUserPicture(
-                            selectedImageFileUri,
+                            mSelectedImageFileUri!!,
                             iv_user_photo
                         )
 
@@ -180,7 +188,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun createUserHashmap(){
+    private fun updateUserProfileDetails(){
 
         val userHashMap = HashMap<String, Any>()
 
@@ -195,6 +203,10 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             Constants.FEMALE
         }
 
+        if (mUserProfileImageURL.isNotEmpty()) {
+            userHashMap[Constants.IMAGE] = mUserProfileImageURL
+        }
+
         if (mobileNumber.isNotEmpty()) {
             userHashMap[Constants.MOBILE] = mobileNumber.toLong()
         }
@@ -204,12 +216,10 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         /*showErrorSnackBar("Your details are valid. You can update them.", false)*/
 
-        // Show the progress dialog.
-        showProgressDialog(resources.getString(R.string.please_wait))
 
         // call the registerUser function of FireStore class to make an entry in the database.
         FireStoreClass().updateUserProfileData(
-            this@UserProfileActivity,
+            this,
             userHashMap
         )
     }
@@ -229,5 +239,12 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         // Redirect to the Main Screen after profile completion.
         startActivity(Intent(this@UserProfileActivity, MainActivity::class.java))
         finish()
+    }
+
+    fun imageUploadSuccess(imageURL: String) {
+
+        mUserProfileImageURL = imageURL
+
+        updateUserProfileDetails()
     }
 }
