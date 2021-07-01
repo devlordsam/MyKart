@@ -213,6 +213,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         userHashMap[Constants.GENDER] = gender
 
+        userHashMap[Constants.COMPLETE_PROFILE] = 1
+
 
         /*showErrorSnackBar("Your details are valid. You can update them.", false)*/
 
