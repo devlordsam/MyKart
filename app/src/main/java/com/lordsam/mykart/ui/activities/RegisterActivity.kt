@@ -1,19 +1,17 @@
-package com.lordsam.mykart
+package com.lordsam.mykart.ui.activities
 
-import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.widget.AppCompatCheckBox
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.lordsam.mykart.R
 import com.lordsam.mykart.firestore.FireStoreClass
 import com.lordsam.mykart.modals.User
 import com.lordsam.mykart.utility.MKButton

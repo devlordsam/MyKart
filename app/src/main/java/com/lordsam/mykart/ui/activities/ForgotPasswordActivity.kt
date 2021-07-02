@@ -1,13 +1,12 @@
-package com.lordsam.mykart
+package com.lordsam.mykart.ui.activities
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Html
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.lordsam.mykart.R
 import com.lordsam.mykart.utility.MKButton
 import com.lordsam.mykart.utility.MKEditText
 

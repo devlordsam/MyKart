@@ -1,4 +1,4 @@
-package com.lordsam.mykart
+package com.lordsam.mykart.ui.activities
 
 import android.Manifest
 import android.app.Activity
@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.lordsam.mykart.R
 import com.lordsam.mykart.firestore.FireStoreClass
 import com.lordsam.mykart.modals.User
 import com.lordsam.mykart.utility.Constants
@@ -45,24 +46,60 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         iv_user_photo = findViewById(R.id.iv_user_photo_up)
         btn_save = findViewById(R.id.btn_submit_up)
 
-        if(intent.hasExtra(Constants.EXTRA_USER_DETAILS)) {
+        if (intent.hasExtra(Constants.EXTRA_USER_DETAILS)) {
             // Get the user details from intent as a ParcelableExtra.
             mUserDetails = intent.getParcelableExtra(Constants.EXTRA_USER_DETAILS)!!
         }
 
-
-        et_first_name.isEnabled = false
         et_first_name.setText(mUserDetails.firstName)
-
-        et_last_name.isEnabled = false
         et_last_name.setText(mUserDetails.lastName)
 
         et_email.isEnabled = false
         et_email.setText(mUserDetails.email)
 
+
+        if (mUserDetails.profileCompleted == 0){
+            tv_title_up.text = resources.getString(R.string.title_complete_profile)
+            et_first_name.isEnabled = false
+            et_last_name.isEnabled = false
+            iv_user_photo.setOnClickListener(this)
+            btn_save.setOnClickListener(this)
+        }else {
+            setupActionBar()
+
+            tv_title_up.text = resources.getString(R.string.title_edit_profile)
+
+            // Load the image using the GlideLoader class with the use of Glide Library.
+            GlideLoader(this@UserProfileActivity).loadUserPicture(mUserDetails.image, iv_user_photo)
+
+            // Set the existing values to the UI and allow user to edit except the Email ID.
+
+            if (mUserDetails.mobile != 0L) {
+                et_mobile_number.setText(mUserDetails.mobile.toString())
+            }
+            if (mUserDetails.gender == Constants.MALE) {
+                rb_male_up.isChecked = true
+            } else {
+                rb_female_up.isChecked = true
+            }
+        }
+
         iv_user_photo.setOnClickListener(this)
         btn_save.setOnClickListener(this)
 
+    }
+
+    private fun setupActionBar() {
+
+        setSupportActionBar(toolbar_user_profile_activity)
+
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setHomeAsUpIndicator(R.drawable.white_arrow)
+        }
+
+        toolbar_user_profile_activity.setNavigationOnClickListener { onBackPressed() }
     }
 
     override fun onClick(v: View?) {
@@ -194,6 +231,17 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         // Here the field which are not editable needs no update. So, we will update user Mobile Number and Gender for now.
 
+        val firstName = et_first_name.text.toString().trim { it <= ' ' }
+        if (firstName != mUserDetails.firstName) {
+            userHashMap[Constants.FIRST_NAME] = firstName
+        }
+
+        // Get the LastName from editText and trim the space
+        val lastName = et_last_name.text.toString().trim { it <= ' ' }
+        if (lastName != mUserDetails.lastName) {
+            userHashMap[Constants.LAST_NAME] = lastName
+        }
+
         // Here we get the text from editText and trim the space
         val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
 
@@ -207,10 +255,12 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             userHashMap[Constants.IMAGE] = mUserProfileImageURL
         }
 
-        if (mobileNumber.isNotEmpty()) {
+        if (mobileNumber.isNotEmpty() && mobileNumber != mUserDetails.mobile.toString()) {
             userHashMap[Constants.MOBILE] = mobileNumber.toLong()
         }
 
+        if (gender.isNotEmpty() && gender != mUserDetails.gender)
+            userHashMap[Constants.GENDER] = gender
         userHashMap[Constants.GENDER] = gender
 
         userHashMap[Constants.COMPLETE_PROFILE] = 1
@@ -239,7 +289,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
 
         // Redirect to the Main Screen after profile completion.
-        startActivity(Intent(this@UserProfileActivity, MainActivity::class.java))
+        startActivity(Intent(this@UserProfileActivity, DashboardActivity::class.java))
         finish()
     }
 

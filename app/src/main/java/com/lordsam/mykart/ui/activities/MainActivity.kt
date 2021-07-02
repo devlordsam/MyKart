@@ -1,4 +1,4 @@
-package com.lordsam.mykart
+package com.lordsam.mykart.ui.activities
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity

@@ -1,13 +1,13 @@
-package com.lordsam.mykart.ui.dashboard
+package com.lordsam.mykart.ui.fragments
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class ProductsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "This is Product Fragment"
     }
     val text: LiveData<String> = _text
 }
