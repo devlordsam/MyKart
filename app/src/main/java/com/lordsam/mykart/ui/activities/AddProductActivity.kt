@@ -7,17 +7,19 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.lordsam.mykart.R
+import com.lordsam.mykart.firestore.FireStoreClass
 import com.lordsam.mykart.utility.Constants
 import com.lordsam.mykart.utility.GlideLoader
 import kotlinx.android.synthetic.main.activity_add_product.*
 import java.io.IOException
 
-class AddProductActivity : AppCompatActivity(), View.OnClickListener {
+class AddProductActivity : BaseActivity(), View.OnClickListener {
 
 
     // A global variable for URI of a selected image from phone storage.
@@ -81,10 +83,9 @@ class AddProductActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 R.id.btn_submit -> {
-//                    if (validateProductDetails()) {
-//
-//                        uploadProductImage()
-//                    }
+                    if (validateProductDetails()) {
+                        uploadProductImage()
+                    }
                 }
             }
         }
@@ -139,6 +140,61 @@ class AddProductActivity : AppCompatActivity(), View.OnClickListener {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun validateProductDetails(): Boolean {
+        return when {
+
+            mSelectedImageFileUri == null -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_select_product_image), true)
+                false
+            }
+
+            TextUtils.isEmpty(et_product_title.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_product_title), true)
+                false
+            }
+
+            TextUtils.isEmpty(et_product_price.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_product_price), true)
+                false
+            }
+
+            TextUtils.isEmpty(et_product_description.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(
+                    resources.getString(R.string.err_msg_enter_product_description),
+                    true
+                )
+                false
+            }
+
+            TextUtils.isEmpty(et_product_quantity.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(
+                    resources.getString(R.string.err_msg_enter_product_quantity),
+                    true
+                )
+                false
+            }
+            else -> {
+                true
+            }
+        }
+    }
+
+    private fun uploadProductImage() {
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FireStoreClass().uploadImageToCloudStorage(
+            this@AddProductActivity,
+            mSelectedImageFileUri,
+            Constants.PRODUCT_IMAGE
+        )
+    }
+
+    fun imageUploadSuccess(imageURL: String) {
+
+      hideProgressDialog()
     }
 
 

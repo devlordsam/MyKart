@@ -9,11 +9,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.lordsam.mykart.ui.activities.LoginActivity
-import com.lordsam.mykart.ui.activities.RegisterActivity
-import com.lordsam.mykart.ui.activities.UserProfileActivity
 import com.lordsam.mykart.modals.User
-import com.lordsam.mykart.ui.activities.SettingsActivity
+import com.lordsam.mykart.ui.activities.*
 import com.lordsam.mykart.utility.Constants
 
 class FireStoreClass {
@@ -150,11 +147,11 @@ class FireStoreClass {
             }
     }
 
-    fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri?) {
+    fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri?, imageType :String) {
 
         //getting the storage reference
         val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
-            Constants.USER_PROFILE_IMAGE + System.currentTimeMillis() + "."
+            imageType + System.currentTimeMillis() + "."
                     + Constants.getFileExtension(
                 activity,
                 imageFileURI
@@ -180,6 +177,9 @@ class FireStoreClass {
                             is UserProfileActivity -> {
                                 activity.imageUploadSuccess(uri.toString())
                             }
+                            is AddProductActivity -> {
+                                activity.imageUploadSuccess(uri.toString())
+                            }
                         }
                         // END
                     }
@@ -189,6 +189,9 @@ class FireStoreClass {
                 // Hide the progress dialog if there is any error. And print the error in log.
                 when (activity) {
                     is UserProfileActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is AddProductActivity -> {
                         activity.hideProgressDialog()
                     }
                 }
