@@ -2,6 +2,7 @@ package com.lordsam.mykart.ui.activities
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.lordsam.mykart.R
 import com.lordsam.mykart.firestore.FireStoreClass
+import com.lordsam.mykart.modals.Product
 import com.lordsam.mykart.utility.Constants
 import com.lordsam.mykart.utility.GlideLoader
 import kotlinx.android.synthetic.main.activity_add_product.*
@@ -194,7 +196,44 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
 
     fun imageUploadSuccess(imageURL: String) {
 
-      hideProgressDialog()
+        mProductImageURL = imageURL
+
+        uploadProductDetails()
+    }
+
+    private fun uploadProductDetails() {
+
+        // Get the logged in username from the SharedPreferences that we have stored at a time of login.
+        val username =
+            this.getSharedPreferences(Constants.MY_KART_PREF, Context.MODE_PRIVATE)
+                .getString(Constants.LOGGED_USER, "")!!
+
+        // Here we get the text from editText and trim the space
+        val product = Product(
+            FireStoreClass().getCurrentUserID(),
+            username,
+            et_product_title.text.toString().trim { it <= ' ' },
+            et_product_price.text.toString().trim { it <= ' ' },
+            et_product_description.text.toString().trim { it <= ' ' },
+            et_product_quantity.text.toString().trim { it <= ' ' },
+            mProductImageURL
+        )
+
+        FireStoreClass().uploadProductDetails(this@AddProductActivity, product)
+    }
+
+    fun productUploadSuccess() {
+
+        // Hide the progress dialog
+        hideProgressDialog()
+
+        Toast.makeText(
+            this@AddProductActivity,
+            resources.getString(R.string.product_uploaded_success_message),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        finish()
     }
 
 
