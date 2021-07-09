@@ -13,9 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyKart">
-        <activity android:name=".ui.activities.AddProductActivity"
+        <activity android:name=".ui.activities.ProductDetailsActivity"
             android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.MyKart.NoActionBar"/>
+            android:theme="@style/Theme.MyKart.NoActionBar"
+            />
+        <activity
+            android:name=".ui.activities.AddProductActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Theme.MyKart.NoActionBar" />
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:screenOrientation="fullSensor"

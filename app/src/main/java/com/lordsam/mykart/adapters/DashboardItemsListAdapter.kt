@@ -17,6 +17,8 @@ class DashboardItemsListAdapter (
 )
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var onClickListener: OnClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MyViewHolder(
             LayoutInflater.from(context).inflate(
@@ -40,6 +42,13 @@ class DashboardItemsListAdapter (
             )
             holder.itemView.tv_dashboard_item_title.text = model.title
             holder.itemView.tv_dashboard_item_price.text = "$${model.price}"
+
+            //custom onclick listener call
+            holder.itemView.setOnClickListener {
+                if (onClickListener != null) {
+                    onClickListener!!.onClick(position, model)
+                }
+            }
         }
     }
 
@@ -47,5 +56,15 @@ class DashboardItemsListAdapter (
         return list.size
     }
 
+    //custom onclick listener function
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+    //custom onclick listener interface
+    interface OnClickListener {
+        fun onClick(position: Int, product: Product)
+    }
 }

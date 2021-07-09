@@ -1,13 +1,16 @@
 package com.lordsam.mykart.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lordsam.mykart.R
 import com.lordsam.mykart.modals.Product
+import com.lordsam.mykart.ui.activities.ProductDetailsActivity
 import com.lordsam.mykart.ui.fragments.ProductsFragment
+import com.lordsam.mykart.utility.Constants
 import com.lordsam.mykart.utility.GlideLoader
 import kotlinx.android.synthetic.main.item_list_layout.view.*
 
@@ -40,9 +43,14 @@ open class MyProductsListAdapter (
             holder.itemView.tv_item_price.text = "$${model.price}"
 
             holder.itemView.ib_delete_product.setOnClickListener {
-
                 fragment.deleteProduct(model.product_id)
+            }
 
+            holder.itemView.setOnClickListener {
+                val intent = Intent(context, ProductDetailsActivity::class.java)
+                intent.putExtra(Constants.EXTRA_PRODUCT_ID, model.product_id)
+                intent.putExtra(Constants.EXTRA_PRODUCT_OWNER_ID, model.user_id)
+                context.startActivity(intent)
             }
         }
     }

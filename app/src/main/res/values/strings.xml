@@ -91,4 +91,10 @@
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="product_delete_success_message">Item Deleted!</string>
+
+    <string name="title_product_details">PRODUCT DETAILS</string>
+    <string name="lbl_product_description">Product Description</string>
+    <string name="lbl_product_details_stock_quantity">Stock Quantity</string>
+
+    <string name="btn_lbl_add_to_cart">ADD TO CART</string>
 </resources>
