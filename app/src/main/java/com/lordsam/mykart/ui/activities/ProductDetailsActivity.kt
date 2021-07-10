@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.lordsam.mykart.R
 import com.lordsam.mykart.firestore.FireStoreClass
 import com.lordsam.mykart.modals.CartItem
@@ -51,6 +52,11 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         btn_go_to_cart.setOnClickListener(this)
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        getProductDetails()
+    }
+
     private fun setupActionBar() {
 
         setSupportActionBar(toolbar_product_details_activity)
@@ -61,10 +67,12 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
             actionBar.setHomeAsUpIndicator(R.drawable.white_arrow)
         }
 
-        toolbar_product_details_activity.setNavigationOnClickListener { onBackPressed() }
+        toolbar_product_details_activity.setNavigationOnClickListener {
+            onBackPressed()
+        }
     }
 
-    private fun getProductDetails() {
+    fun getProductDetails() {
 
         // Show the product dialog
         showProgressDialog(resources.getString(R.string.please_wait))
@@ -90,11 +98,31 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
         tv_product_details_description.text = product.description
         tv_product_details_available_quantity.text = product.stock_quantity
 
-        if (FireStoreClass().getCurrentUserID() == product.user_id) {
+        if(product.stock_quantity.toInt() == 0){
+
             // Hide Progress dialog.
             hideProgressDialog()
-        } else {
-            FireStoreClass().checkIfItemExistInCart(this@ProductDetailsActivity, mProductId)
+
+            // Hide the AddToCart button if the item is already in the cart.
+            btn_add_to_cart.visibility = View.GONE
+
+            tv_product_details_available_quantity.text =
+                resources.getString(R.string.lbl_out_of_stock)
+
+            tv_product_details_available_quantity.setTextColor(
+                ContextCompat.getColor(
+                    this@ProductDetailsActivity,
+                    R.color.colorSnackBarError
+                )
+            )
+        }else{
+
+            if (FireStoreClass().getCurrentUserID() == product.user_id) {
+                // Hide Progress dialog.
+                hideProgressDialog()
+            } else {
+                FireStoreClass().checkIfItemExistInCart(this@ProductDetailsActivity, mProductId)
+            }
         }
     }
 

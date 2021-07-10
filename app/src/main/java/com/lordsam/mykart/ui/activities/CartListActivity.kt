@@ -4,14 +4,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lordsam.mykart.R
 import com.lordsam.mykart.adapters.CartItemListAdapter
 import com.lordsam.mykart.firestore.FireStoreClass
 import com.lordsam.mykart.modals.CartItem
+import com.lordsam.mykart.modals.Product
 import kotlinx.android.synthetic.main.activity_cart_list.*
 
 class CartListActivity : BaseActivity() {
+
+    private lateinit var mProductsList: ArrayList<Product>
+    private lateinit var mCartListItems: ArrayList<CartItem>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart_list)
@@ -22,7 +28,8 @@ class CartListActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
 
-        getCartItemsList()
+        getProductsList()
+        //getCartItemsList()
     }
 
     fun successCartItemsList(cartList: ArrayList<CartItem>) {
@@ -30,7 +37,22 @@ class CartListActivity : BaseActivity() {
         // Hide progress dialog.
         hideProgressDialog()
 
-        if (cartList.size > 0) {
+        for (product in mProductsList) {
+            for (cart in cartList) {
+                if (product.product_id == cart.product_id) {
+
+                    cart.stock_quantity = product.stock_quantity
+
+                    if (product.stock_quantity.toInt() == 0){
+                        cart.cart_quantity = product.stock_quantity
+                    }
+                }
+            }
+        }
+
+        mCartListItems = cartList
+
+        if (mCartListItems.size > 0) {
 
             rv_cart_items_list.visibility = View.VISIBLE
             ll_checkout.visibility = View.VISIBLE
@@ -44,12 +66,16 @@ class CartListActivity : BaseActivity() {
 
             var subTotal: Double = 0.0
 
-            for (item in cartList) {
+            for (item in mCartListItems) {
 
-                val price = item.price.toDouble()
-                val quantity = item.cart_quantity.toInt()
+                val availableQuantity = item.stock_quantity.toInt()
 
-                subTotal += (price * quantity)
+                if (availableQuantity > 0) {
+                    val price = item.price.toDouble()
+                    val quantity = item.cart_quantity.toInt()
+
+                    subTotal += (price * quantity)
+                }
             }
 
             tv_sub_total.text = "$$subTotal"
@@ -72,12 +98,28 @@ class CartListActivity : BaseActivity() {
         }
     }
 
+    private fun getProductsList() {
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FireStoreClass().getAllProductsList(this)
+    }
+
     private fun getCartItemsList() {
 
         // Show the progress dialog.
-        showProgressDialog(resources.getString(R.string.please_wait))
+        //showProgressDialog(resources.getString(R.string.please_wait))
 
         FireStoreClass().getCartList(this@CartListActivity)
+    }
+
+    fun successProductsListFromFireStore(productsList: ArrayList<Product>) {
+
+        hideProgressDialog()
+
+        mProductsList = productsList
+
+        getCartItemsList()
     }
 
     private fun setupActionBar() {
@@ -90,6 +132,28 @@ class CartListActivity : BaseActivity() {
             actionBar.setHomeAsUpIndicator(R.drawable.white_arrow)
         }
 
-        toolbar_cart_list_activity.setNavigationOnClickListener { onBackPressed() }
+        toolbar_cart_list_activity.setNavigationOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    fun itemRemovedSuccess() {
+
+        hideProgressDialog()
+
+        Toast.makeText(
+            this@CartListActivity,
+            resources.getString(R.string.msg_item_removed_successfully),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        getCartItemsList()
+    }
+
+    fun itemUpdateSuccess() {
+
+        hideProgressDialog()
+
+        getCartItemsList()
     }
 }
