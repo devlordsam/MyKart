@@ -14,6 +14,7 @@ import com.lordsam.mykart.adapters.DashboardItemsListAdapter
 import com.lordsam.mykart.databinding.FragmentDashboardBinding
 import com.lordsam.mykart.firestore.FireStoreClass
 import com.lordsam.mykart.modals.Product
+import com.lordsam.mykart.ui.activities.CartListActivity
 import com.lordsam.mykart.ui.activities.ProductDetailsActivity
 import com.lordsam.mykart.ui.activities.SettingsActivity
 import com.lordsam.mykart.utility.Constants
@@ -64,6 +65,10 @@ class DashboardFragment : BaseFragment() {
 
             R.id.action_settings -> {
                 startActivity(Intent(activity, SettingsActivity::class.java))
+                return true
+            }
+            R.id.action_cart -> {
+                startActivity(Intent(activity, CartListActivity::class.java))
                 return true
             }
         }
