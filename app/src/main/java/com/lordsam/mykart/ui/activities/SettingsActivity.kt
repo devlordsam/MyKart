@@ -11,6 +11,7 @@ import com.lordsam.mykart.modals.User
 import com.lordsam.mykart.utility.Constants
 import com.lordsam.mykart.utility.GlideLoader
 import kotlinx.android.synthetic.main.activity_settings.*
+import java.lang.Exception
 
 class SettingsActivity : BaseActivity(), View.OnClickListener {
 
@@ -23,7 +24,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         setupActionBar()
 
         tv_edit.setOnClickListener(this@SettingsActivity)
-
+        ll_address.setOnClickListener(this@SettingsActivity)
         btn_logout.setOnClickListener(this@SettingsActivity)
     }
 
@@ -40,6 +41,11 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                 R.id.tv_edit -> {
                     val intent = Intent(this@SettingsActivity, UserProfileActivity::class.java)
                     intent.putExtra(Constants.EXTRA_USER_DETAILS, mUserDetails)
+                    startActivity(intent)
+                }
+
+                R.id.ll_address -> {
+                    val intent = Intent(this@SettingsActivity, AddressListActivity::class.java)
                     startActivity(intent)
                 }
 
