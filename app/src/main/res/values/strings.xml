@@ -139,4 +139,5 @@
     <string name="btn_lbl_update">Update</string>
     <string name="err_your_address_edited_successfully">You address was  edited successfully!</string>
     <string name="err_your_address_deleted_successfully">Address deleted!</string>
+    <string name="title_select_address">Select Address</string>
 </resources>

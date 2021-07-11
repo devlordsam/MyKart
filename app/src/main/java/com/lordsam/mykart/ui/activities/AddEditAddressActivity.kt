@@ -190,6 +190,7 @@ class AddEditAddressActivity : BaseActivity() {
             Toast.LENGTH_SHORT
         ).show()
 
+        setResult(RESULT_OK)//code 121
         finish()
     }
 
