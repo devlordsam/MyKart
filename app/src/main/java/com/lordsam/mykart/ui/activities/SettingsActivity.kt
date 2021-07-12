@@ -1,7 +1,6 @@
 package com.lordsam.mykart.ui.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
@@ -11,7 +10,6 @@ import com.lordsam.mykart.modals.User
 import com.lordsam.mykart.utility.Constants
 import com.lordsam.mykart.utility.GlideLoader
 import kotlinx.android.synthetic.main.activity_settings.*
-import java.lang.Exception
 
 class SettingsActivity : BaseActivity(), View.OnClickListener {
 
@@ -96,7 +94,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         tv_name.text = "${user.firstName} ${user.lastName}"
         tv_gender.text = user.gender
         tv_email.text = user.email
-        tv_mobile_number.text = "${user.mobile}"
+        tv_checkout_mobile_number.text = "${user.mobile}"
     }
 
 }

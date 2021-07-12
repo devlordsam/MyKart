@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lordsam.mykart.R
 import com.lordsam.mykart.modals.Address
 import com.lordsam.mykart.ui.activities.AddEditAddressActivity
+import com.lordsam.mykart.ui.activities.CheckoutActivity
 import com.lordsam.mykart.utility.Constants
 import kotlinx.android.synthetic.main.item_address_layout.view.*
 
@@ -60,11 +61,10 @@ open class AddressListAdapter(
 
             if (selectAddress) {
                 holder.itemView.setOnClickListener {
-                    Toast.makeText(
-                        context,
-                        "Selected address : ${model.address}, ${model.zipCode}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+
+                    val intent = Intent(context, CheckoutActivity::class.java)
+                    intent.putExtra(Constants.EXTRA_SELECTED_ADDRESS, model)
+                    context.startActivity(intent)
                 }
             }
         }

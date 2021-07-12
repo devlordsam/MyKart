@@ -10,10 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.lordsam.mykart.modals.Address
-import com.lordsam.mykart.modals.CartItem
-import com.lordsam.mykart.modals.Product
-import com.lordsam.mykart.modals.User
+import com.lordsam.mykart.modals.*
 import com.lordsam.mykart.ui.activities.*
 import com.lordsam.mykart.ui.fragments.DashboardFragment
 import com.lordsam.mykart.ui.fragments.ProductsFragment
@@ -430,6 +427,9 @@ class FireStoreClass {
                     is CartListActivity -> {
                         activity.successCartItemsList(list)
                     }
+                    is CheckoutActivity -> {
+                        activity.successCartItemsList(list)
+                    }
                 }
             }
             .addOnFailureListener { e ->
@@ -438,13 +438,16 @@ class FireStoreClass {
                     is CartListActivity -> {
                         activity.hideProgressDialog()
                     }
+                    is CheckoutActivity -> {
+                        activity.hideProgressDialog()
+                    }
                 }
 
                 Log.e(activity.javaClass.simpleName, "Error while getting the cart list items.", e)
             }
     }
 
-    fun getAllProductsList(activity: CartListActivity) {
+    fun getAllProductsList(activity: Activity) {
         // The collection name for PRODUCTS
         mFireStore.collection(Constants.PRODUCTS)
             .get() // Will get the documents snapshots.
@@ -465,11 +468,27 @@ class FireStoreClass {
                     productsList.add(product)
                 }
 
-                activity.successProductsListFromFireStore(productsList)
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.successProductsListFromFireStore(productsList)
+                    }
+
+                    is CheckoutActivity -> {
+                        activity.successProductsListFromFireStore(productsList)
+                    }
+                }
             }
             .addOnFailureListener { e ->
                 // Hide the progress dialog if there is any error based on the base class instance.
-                activity.hideProgressDialog()
+                when (activity) {
+                    is CartListActivity -> {
+                        activity.hideProgressDialog()
+                    }
+
+                    is CheckoutActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
 
                 Log.e("Get Product List", "Error while getting all product list.", e)
             }
@@ -630,6 +649,29 @@ class FireStoreClass {
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error while deleting the address.",
+                    e
+                )
+            }
+    }
+
+    fun placeOrder(activity: CheckoutActivity, order: Order) {
+
+        mFireStore.collection(Constants.ORDERS)
+            .document()
+            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            .set(order, SetOptions.merge())
+            .addOnSuccessListener {
+
+                // Here call a function of base activity for transferring the result to it.
+                activity.orderPlacedSuccess()
+            }
+            .addOnFailureListener { e ->
+
+                // Hide the progress dialog if there is any error.
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while placing an order.",
                     e
                 )
             }
