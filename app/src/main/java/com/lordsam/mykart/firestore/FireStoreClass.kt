@@ -708,15 +708,16 @@ class FireStoreClass {
                 writeBatch.set(documentReference, soldProduct)
             }
 
-//            val productHashMap = HashMap<String, Any>()
-//
-//            productHashMap[Constants.STOCK_QUANTITY] =
-//                (cart.stock_quantity.toInt() - cart.cart_quantity.toInt()).toString()
+            //updating stock quantity
+            val productHashMap = HashMap<String, Any>()
 
-//            val documentReference = mFireStore.collection(Constants.PRODUCTS)
-//                .document(cart.product_id)
-//
-//            writeBatch.update(documentReference, productHashMap)
+            productHashMap[Constants.STOCK_QUANTITY] =
+                (cart.stock_quantity.toInt() - cart.cart_quantity.toInt()).toString()
+
+            val documentReference = mFireStore.collection(Constants.PRODUCTS)
+                .document(cart.product_id)
+
+            writeBatch.update(documentReference, productHashMap)
         }
 
         // Delete the list of cart items
